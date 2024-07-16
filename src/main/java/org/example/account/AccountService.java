@@ -16,10 +16,15 @@ public class AccountService {
         this.userService = userService;
     }
 
+    public void succesTransaction(String temp) {
+        System.out.println(temp + " transaction successfully: ");
+    }
+
+
     public Account getAccountByAccountNumber(int accountNumber) {
         for (Account account : accountList) {
-            if (account.accountNumber== accountNumber) {
-                System.out.println("Account could found succesfully:");
+            if (account.accountNumber == accountNumber) {
+                succesTransaction("Get account by account number");
                 return account;
             }
         }
@@ -27,7 +32,7 @@ public class AccountService {
         return null;
     }
 
-    public int generateAccountNumber(){
+    public int generateAccountNumber() {
         int accountNumber;
         Random random = new Random();
         accountNumber = random.nextInt(1000);
@@ -43,7 +48,7 @@ public class AccountService {
             account.accountBalance = 0.0f;
             account.accountHolder = user.userId;
             accountList.add(account);
-            System.out.println("Account created succesfully with this Id Number:" + userId);
+            succesTransaction("Create account");
         } else {
             System.out.println("Not found Id!");
         }
@@ -53,7 +58,9 @@ public class AccountService {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null) {
             accountList.remove(account);
-            System.out.println("Account was deleted successfully:");
+            succesTransaction("Delete account");
+        } else {
+            System.out.println("Not found account number!");
         }
     }
 
@@ -63,17 +70,21 @@ public class AccountService {
             account.accountType = accountType;
             account.accountBalance = accountBalance;
             account.accountHolder = accountHolder;
-            System.out.println("Account was updated successfully:");
+            succesTransaction("Update account");
+        } else {
+            System.out.println("Not found account number!");
         }
     }
 
-    public void listAllAccounts(){
+    public void listAllAccounts() {
         boolean accountsQuantity = accountList.isEmpty();
-        if(accountsQuantity != false){
-            for(Account account : accountList){
+        if (accountsQuantity != false) {
+            for (Account account : accountList) {
                 System.out.println(account);
 
             }
+        } else if (accountsQuantity == false) {
+            System.out.println("There is no account!");
         }
     }
 }
