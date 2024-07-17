@@ -1,5 +1,9 @@
 package org.example.user;
 
+
 public class UserService {
-    String a ;
+
+    public static void main(String[] args) {
+
+    }
 }
