@@ -19,6 +19,7 @@ public class AccountService {
     public Account createAccount(int userId, String accountType) {
         Account account = new Account();
         account.AccountNumber = 0;
+        account.AccountId = 0;
         account.AccountType = accountType;
         account.CreatedDate = LocalDate.now();
 
