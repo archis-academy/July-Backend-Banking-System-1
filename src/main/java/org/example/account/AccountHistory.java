@@ -1,26 +1,41 @@
 
 package org.example.account;
 
-import java.time.LocalDate;
+import org.example.user.User;
+import org.example.user.UserService;
 
-public class AccountHistory {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-    public String transactionType;
-    public boolean isSuccess;
-    public LocalDate date;
-    public float amount;
-    public String location;
-    public Account account;
+public class AccountService {
+    List<Account> accountList;
+    final UserService userService;
 
-    AccountHistory() {
-
+    public AccountService(List<Account> accountList, UserService userService) {
+        this.accountList = accountList;
+        this.userService = userService;
     }
 
-    AccountHistory(String transactionType, boolean isSuccess, LocalDate date, float amount, String location) {
-        this.transactionType = transactionType;
-        this.isSuccess = isSuccess;
-        this.date = date;
-        this.amount = amount;
-        this.location = location;
+    public void succesTransaction(String temp) {
+        System.out.println(temp + " transaction successfully: ");
+    }
+
+
+    public Account getAccountByAccountNumber(int accountNumber) {
+        for (Account account : accountList) {
+            if (account.accountNumber == accountNumber) {
+                succesTransaction("Get account by account number");
+                return account;
+            }
+        }
+        System.out.println("Account couldn't found!");
+        return null;
+    }
+
+    public long generateAccountNumber() {
+        Random random = new Random();
+        long accountNumber = random.nextLong(9999999999999999);
+        return accountNumber;
     }
 }
