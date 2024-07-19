@@ -16,7 +16,7 @@ public class AccountService {
         this.userService = userService;
     }
 
-    public void createAccount(int userId, String accountType) {
+    public Account createAccount(int userId, String accountType) {
         Account account = new Account();
         account.AccountNumber = 0;
         account.AccountType = accountType;
@@ -27,7 +27,9 @@ public class AccountService {
             account.user = user;
             accountList.add(account);
             System.out.println("User account has been created successfully");
+            return account;
         }
+        return null;
 
     }
 
