@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import org.example.user.User;
 
 public class Account {
-        public int accountId;
+        public int AccountId;
         public int AccountNumber;
         public String AccountType;
         public float AccountBalance;
@@ -19,7 +19,7 @@ public class Account {
         }
     
         public Account(int accountId, int accountNumber, String accountType, float accountBalance, String accountHolder, LocalDate CreatedDate) {
-            this.accountId = accountId;
+            this.AccountId = accountId;
             this.AccountNumber = accountNumber;
             this.AccountType = accountType;
             this.AccountBalance = accountBalance;
