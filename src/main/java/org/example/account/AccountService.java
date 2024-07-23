@@ -9,11 +9,9 @@ import java.util.Random;
 
 public class AccountService {
     List<Account> accountList;
-    final UserService userService;
 
-    public AccountService(List<Account> accountList, UserService userService) {
+    public AccountService() {
         this.accountList = new ArrayList<>();
-        this.userService = userService;
     }
 
     public Account getAccountByAccountNumber(int accountNumber) {
@@ -29,7 +27,7 @@ public class AccountService {
     public long generateAccountNumber() {
         long accountNumber;
         Random random = new Random();
-        accountNumber = random.nextLong(1000);
+        accountNumber = random.nextLong(999999999);
         return accountNumber;
     }
 }
