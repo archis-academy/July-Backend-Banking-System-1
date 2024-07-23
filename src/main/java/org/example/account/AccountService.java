@@ -9,11 +9,9 @@ import java.util.Random;
 
 public class AccountService {
     List<Account> accountList;
-    final UserService userService;
 
-    public AccountService(List<Account> accountList, UserService userService) {
+    public AccountService() {
         this.accountList = new ArrayList<>();
-        this.userService = userService;
     }
 
     public Account getAccountByAccountNumber(int accountNumber) {
@@ -25,7 +23,6 @@ public class AccountService {
         System.out.println("Account couldn't found!");
         return null;
     }
-
     public String deleteAccount(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null) {
