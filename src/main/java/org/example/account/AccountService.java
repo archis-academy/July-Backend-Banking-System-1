@@ -13,6 +13,7 @@ public class AccountService {
     public AccountService() {
         this.accountList = new ArrayList<>();
     }
+
   
   public long generateAccountNumber() {
         long accountNumber;
@@ -22,7 +23,7 @@ public class AccountService {
     }
   
 
-    public Account getAccountByAccountNumber(int accountNumber) {
+  public Account getAccountByAccountNumber(int accountNumber) {
         for (Account account : accountList) {
             if (account.AccountNumber == accountNumber) {
                 return account;
@@ -32,6 +33,17 @@ public class AccountService {
         return null;
     }
 
+
+    public List<Account> listAllAccounts() {
+        boolean accountsQuantity = accountList.isEmpty();
+        if (accountsQuantity != false) {
+            return accountList;
+        }
+        System.out.println("There is no account!");
+        return null;
+    }
+}
+    
   
     public String deleteAccount(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
