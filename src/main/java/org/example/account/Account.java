@@ -33,14 +33,5 @@ public class Account {
             
         }
 
-        public synchronized long getNextId() {
-            return idCounter++;
-        }
-    
-        public synchronized long getNextQuantity() {
-            return quantityCounter++;
-        }
-
-
 
 }

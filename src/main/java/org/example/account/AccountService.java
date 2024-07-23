@@ -1,6 +1,7 @@
 package org.example.account;
 
 import org.example.user.UserService;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,28 +19,22 @@ public class AccountService {
         this.userService = userService;
     }
 
-    public long getRandom() {
-        Random random = new Random();
-        long accountNumber = random.nextLong(9999999);
-        return accountNumber;
-
-    }
 
     public Account createAccount(int userId, String accountType) {
-
-        Account account = new Account();
         User user = userService.getUserById(userId);
-        if(user != null){
-        account.accountNumber = getRandom();
-        account.accountId = account.getNextId();
-        account.accountQuantity = account.getNextQuantity();
-        account.accountType = accountType;
-        account.CreatedDate = LocalDate.now();
-
+        if (user != null) {
+            Account account = new Account();
+            account.accountNumber = generateAccountNumber();
+            account.accountId = accountList.size() + 1;
+            account.accountQuantity = accountList.size() + 1;
+            account.accountHolder = user.fullName;
+            account.accountType = accountType;
+            account.accountBalance = 0.0f;
+            account.CreatedDate = LocalDate.now();
+            accountList.add(account);
+            return account;
         }
-
-        return account;
-
+        return null;
     }
 
 }
