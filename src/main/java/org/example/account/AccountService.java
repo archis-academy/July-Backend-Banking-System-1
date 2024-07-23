@@ -12,7 +12,7 @@ public class AccountService {
     final UserService userService;
 
     public AccountService(List<Account> accountList, UserService userService) {
-        this.accountList = accountList;
+        this.accountList = new ArrayList<>();
         this.userService = userService;
     }
 
