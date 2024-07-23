@@ -27,7 +27,7 @@ public class AccountService {
     public long generateAccountNumber() {
         long accountNumber;
         Random random = new Random();
-        accountNumber = random.nextLong(999999999);
+        accountNumber = 10000000 + random.nextLong(89999999);
         return accountNumber;
     }
 }
