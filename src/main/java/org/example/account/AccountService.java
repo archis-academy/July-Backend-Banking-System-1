@@ -42,9 +42,7 @@ public class AccountService {
         System.out.println("There is no account!");
         return null;
     }
-}
-    
-  
+
     public String deleteAccount(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null) {
@@ -55,4 +53,12 @@ public class AccountService {
         }
     }
 
+    public void confirmBeforeDeletingAccount(){
+
+    }
 }
+    
+  
+
+
+
