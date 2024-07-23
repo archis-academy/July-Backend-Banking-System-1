@@ -26,17 +26,13 @@ public class AccountService {
         return null;
     }
 
-    public Account listAllAccounts() {
+    public List<Account> listAllAccounts() {
         boolean accountsQuantity = accountList.isEmpty();
         if (accountsQuantity != false) {
-            for (Account account : accountList) {
-                return account;
-
-            }
-        } else if (accountsQuantity == false) {
-            System.out.println("There is no account!");
-            return null;
+            return accountList;
         }
+        System.out.println("There is no account!");
+        return null;
     }
 }
     
