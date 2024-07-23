@@ -12,7 +12,7 @@ public class AccountService {
     final UserService userService;
 
     public AccountService(List<Account> accountList, UserService userService) {
-        this.accountList = accountList;
+        this.accountList = new ArrayList<>();
         this.userService = userService;
     }
 
@@ -26,12 +26,13 @@ public class AccountService {
         return null;
     }
 
-    public void deleteAccount(int accountNumber) {
+    public String deleteAccount(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null) {
             accountList.remove(account);
+            return "Delete transaction successfully:";
         } else {
-            System.out.println("Not found account number!");
+            return "Not found account number!";
         }
     }
 
