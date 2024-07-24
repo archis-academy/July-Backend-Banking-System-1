@@ -11,12 +11,13 @@ public class User {
     public String phoneNumber;
     public int itentityNumber;
     public Account account;
+    public double salary;
 
 
     public User() {
 
     }
-    public User(int userId, String fullName, String password, String email, int age, String address, String phoneNumber, int itentityNumber) {
+    public User(int userId, String fullName, String password, String email, int age, String address, String phoneNumber, int itentityNumber, double salary) {
         this.userId = userId;
         this.fullName = fullName;
         this.password = password;
@@ -25,5 +26,6 @@ public class User {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.itentityNumber = itentityNumber;
+        this.salary = salary;
     }
 }

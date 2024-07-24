@@ -1,5 +1,7 @@
 package org.example.account;
 
+import org.example.user.User;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -59,6 +61,22 @@ public class AccountService {
         } else {
             return null;
         }
+    }
+
+    public double calculateMonthlyPayment(double loan, int month) {
+        double interestRate = 0.25;
+        double totalPayment = loan + (loan * interestRate);
+        double montlyPayment = totalPayment / month;
+        return montlyPayment;
+    }
+
+    public Double loanManagement(int userId, double loan, int month) {
+        User user = getUserById(userId);
+        double takeMaxLoan = user.salary * 30;
+        if (user != null && loan <= takeMaxLoan) {
+            return calculateMonthlyPayment(loan, month);
+        }
+        throw new RuntimeException("User not found with this Id number!");
     }
 }
 
