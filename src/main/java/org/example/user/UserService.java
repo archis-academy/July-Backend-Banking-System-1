@@ -1,11 +1,14 @@
 package org.example.user;
 
+<<<<<<< Updated upstream
 import java.util.ArrayList;
+=======
+public class UserService{
+>>>>>>> Stashed changes
 
-public class UserService {
 
-    public static void main(String[] args) {
 
+<<<<<<< Updated upstream
     }
 
     ArrayList<User> userList = new ArrayList<>();
@@ -25,6 +28,8 @@ public class UserService {
         }
         return null;
     }
+=======
+>>>>>>> Stashed changes
 }
 
 
