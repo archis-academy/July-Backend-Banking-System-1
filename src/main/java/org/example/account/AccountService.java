@@ -1,8 +1,5 @@
 package org.example.account;
 
-import org.example.user.User;
-import org.example.user.UserService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -44,6 +41,7 @@ public class AccountService {
         return null;
     }
 
+
     public String deleteAccount(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null) {
@@ -59,6 +57,7 @@ public class AccountService {
         }
     }
 
+   
     public boolean confirmBeforeDeletingAccount() {
         Scanner scan = new Scanner(System.in);
         confirmMessage();
@@ -72,7 +71,14 @@ public class AccountService {
     }
 }
     
-  
 
-
+    public Float checkBalanceFunctionality(int accountNumber) {
+        Account account = getAccountByAccountNumber(accountNumber);
+        if (account != null) {
+            return account.AccountBalance;
+        } else {
+            return null;
+        }
+    }
+}
 
