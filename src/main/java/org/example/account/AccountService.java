@@ -47,8 +47,8 @@ public class AccountService {
     public String deleteAccount(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null) {
-            String confirm = confirmBeforeDeletingAccount();
-            if (confirm.equals("YES")) {
+            boolean confirm = confirmBeforeDeletingAccount();
+            if (confirm == true) {
                 accountList.remove(account);
                 return "Delete transaction successfully:";
             } else {
@@ -59,16 +59,16 @@ public class AccountService {
         }
     }
 
-    public String confirmBeforeDeletingAccount() {
+    public boolean confirmBeforeDeletingAccount() {
         Scanner scan = new Scanner(System.in);
         confirmMessage();
-        String confirm = scan.nextLine();
+        boolean confirm = scan.nextBoolean();
         return confirm;
     }
 
 
     public String confirmMessage() {
-        return "Are you sure you want to delete the account?";
+        return String.format("Are you sure you want to delete the account? %nType true to delete or Type false to cancel");
     }
 }
     
