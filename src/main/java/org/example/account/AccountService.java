@@ -52,7 +52,7 @@ public class AccountService {
     }
 
 
-    public float checkBalanceFunctionality(int accountNumber) {
+    public Float checkBalanceFunctionality(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null) {
             return account.AccountBalance;
