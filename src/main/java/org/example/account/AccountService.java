@@ -1,14 +1,21 @@
 package org.example.account;
 
+import org.example.user.User;
+import org.example.user.UserService;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class AccountService {
     List<Account> accountList;
+    List<User> userList;
+    UserService userService;
 
     public AccountService() {
         this.accountList = new ArrayList<>();
+        this.userList = new ArrayList<>();
+        this.userService = new UserService();
     }
 
 
@@ -60,5 +67,19 @@ public class AccountService {
             return null;
         }
     }
+
+    public String openAccount(String identityNumber, String password) {
+        User user = userService.getUserByIdentityNumber(identityNumber);
+        if (!user.getPassword().equals(password)) {
+            throw new RuntimeException("Error: Invalid password.");
+        }
+        return "Account opened successfully for user: " + user.getFullName();
+    }
+
+
 }
+
+
+
+
 
