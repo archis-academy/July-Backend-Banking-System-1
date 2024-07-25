@@ -1,11 +1,9 @@
 package org.example.account;
 
-import org.example.user.User;
-import org.example.user.UserService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class AccountService {
     List<Account> accountList;
@@ -43,15 +41,22 @@ public class AccountService {
         return null;
     }
 
+
     public String deleteAccount(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null) {
-            accountList.remove(account);
-            return "Delete transaction successfully:";
+            boolean confirm = confirmBeforeDeletingAccount();
+            if (confirm == true) {
+                accountList.remove(account);
+                return "Delete transaction successfully:";
+            } else {
+                return "Deletion has been canceled!";
+            }
         } else {
             return "Not found account number!";
         }
     }
+
 
     public String withDrawMoney(float amount, int accountNumber) {
         AccountHistory accountHistory=new AccountHistory();
@@ -69,5 +74,31 @@ public class AccountService {
 
 
 
+
+
+   
+    public boolean confirmBeforeDeletingAccount() {
+        Scanner scan = new Scanner(System.in);
+        confirmMessage();
+        boolean confirm = scan.nextBoolean();
+        return confirm;
+    }
+
+
+    public String confirmMessage() {
+        return String.format("Are you sure you want to delete the account? %nType true to delete or Type false to cancel");
+    }
+}
+    
+
+    public Float checkBalanceFunctionality(int accountNumber) {
+        Account account = getAccountByAccountNumber(accountNumber);
+        if (account != null) {
+            return account.AccountBalance;
+        } else {
+            return null;
+        }
+    }
+}
 
 
