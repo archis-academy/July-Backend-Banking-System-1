@@ -14,16 +14,16 @@ public class AccountService {
         this.accountList = new ArrayList<>();
     }
 
-  
-  public long generateAccountNumber() {
+
+    public long generateAccountNumber() {
         long accountNumber;
         Random random = new Random();
         accountNumber = 10000000 + random.nextLong(89999999);
         return accountNumber;
     }
-  
 
-  public Account getAccountByAccountNumber(int accountNumber) {
+
+    public Account getAccountByAccountNumber(int accountNumber) {
         for (Account account : accountList) {
             if (account.AccountNumber == accountNumber) {
                 return account;
@@ -42,9 +42,7 @@ public class AccountService {
         System.out.println("There is no account!");
         return null;
     }
-}
-    
-  
+
     public String deleteAccount(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null) {
@@ -55,4 +53,21 @@ public class AccountService {
         }
     }
 
+    public String withDrawMoney(float amount, int accountNumber) {
+        AccountHistory accountHistory=new AccountHistory();
+        Account account = getAccountByAccountNumber(accountNumber);
+        if (account != null && account.AccountBalance >= amount) {
+            account.AccountBalance -= amount;
+            accountHistory.amount = amount;
+            accountHistory.isSuccess = true;
+            return "Successfully withdraw " + amount;
+        }
+        return null;
+    }
+
 }
+
+
+
+
+
