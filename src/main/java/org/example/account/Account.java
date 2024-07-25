@@ -4,11 +4,12 @@ import java.time.LocalDate;
 import org.example.user.User;
 
 public class Account {
-        public int AccountId;
-        public int AccountNumber;
-        public String AccountType;
-        public float AccountBalance;
-        public String AccountHolder;
+        public long accountId;
+        public long accountQuantity;
+        public long accountNumber;
+        public String accountType;
+        public float accountBalance;
+        public String accountHolder;
         public LocalDate CreatedDate;
         public User user;
         public AccountHistory accountHistory;
@@ -18,12 +19,12 @@ public class Account {
     
         }
     
-        public Account(int accountId, int accountNumber, String accountType, float accountBalance, String accountHolder, LocalDate CreatedDate) {
-            this.AccountId = accountId;
-            this.AccountNumber = accountNumber;
-            this.AccountType = accountType;
-            this.AccountBalance = accountBalance;
-            this.AccountHolder = accountHolder;
+        public Account(long accountId,long accountQuantity, long accountNumber, String accountType, float accountBalance, String accountHolder, LocalDate CreatedDate) {
+            this.accountId = accountId;
+            this.accountNumber = accountNumber;
+            this.accountType = accountType;
+            this.accountBalance = accountBalance;
+            this.accountHolder = accountHolder;
             this.CreatedDate = CreatedDate;
             
         }
