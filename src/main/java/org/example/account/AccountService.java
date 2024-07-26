@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import org.example.user.User;
-
 
 public class AccountService {
     ArrayList<Account> accountList = new ArrayList<>();
@@ -22,7 +20,7 @@ public class AccountService {
         }
             Account account = new Account();
             account.accountNumber = generateAccountNumber();
-            account.accountId = generateNextAccountId();
+            account.accountId = accountList.size()+1;
             account.accountQuantity = accountList.size() + 1;
             account.accountHolder = user.fullName;
             account.accountType = accountType;
@@ -32,15 +30,6 @@ public class AccountService {
             return account;
     }
 
-    public long generateNextAccountId(){
-        long maxId = 0;
-        for (Account acc : accountList){
-            if(acc.accountId > maxId){
-                maxId = acc.accountId;
-            }
-        }
-        return  maxId +1;
-    }
 
     public long generateAccountNumber() {
         long accountNumber;
@@ -74,8 +63,13 @@ public class AccountService {
     public String deleteAccount(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null) {
-            accountList.remove(account);
-            return "Delete transaction successfully:";
+            boolean confirm = confirmBeforeDeletingAccount();
+            if (confirm) {
+                accountList.remove(account);
+                return "Delete transaction successfully:";
+            } else {
+                return "Deletion has been canceled!";
+            }
         } else {
             return "Not found account number!";
         }
