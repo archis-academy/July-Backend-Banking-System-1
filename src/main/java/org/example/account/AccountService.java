@@ -58,7 +58,6 @@ public class AccountService {
     }
 
 
-   
     public boolean confirmBeforeDeletingAccount() {
         Scanner scan = new Scanner(System.in);
         confirmMessage();
@@ -70,9 +69,6 @@ public class AccountService {
     public String confirmMessage() {
         return String.format("Are you sure you want to delete the account? %nType true to delete or Type false to cancel");
     }
-}
-    
-
 
     public Float checkBalanceFunctionality(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
@@ -84,11 +80,10 @@ public class AccountService {
     }
 
 
-
     public String depositMoney(float amount, int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null && amount > 0) {
-            AccountHistory accountHistory=new AccountHistory();
+            AccountHistory accountHistory = new AccountHistory();
             account.AccountBalance += amount;
             accountHistory.amount = amount;
             accountHistory.isSuccess = true;
@@ -97,7 +92,12 @@ public class AccountService {
         }
         return null;
     }
-
-
 }
+    
+
+
+
+
+
+
 
