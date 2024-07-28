@@ -57,7 +57,7 @@ public class AccountService {
         }
     }
 
-   
+
     public boolean confirmBeforeDeletingAccount() {
         Scanner scan = new Scanner(System.in);
         confirmMessage();
@@ -69,8 +69,7 @@ public class AccountService {
     public String confirmMessage() {
         return String.format("Are you sure you want to delete the account? %nType true to delete or Type false to cancel");
     }
-}
-    
+
 
     public Float checkBalanceFunctionality(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
@@ -80,5 +79,15 @@ public class AccountService {
             return null;
         }
     }
+
+    public boolean inputValidationDepositWithdrawAmount(String amount) {
+        if (isPositiveDouble(amount) != true) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }
+
 
