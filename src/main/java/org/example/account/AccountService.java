@@ -19,7 +19,6 @@ public class AccountService {
         this.userService = userService;
         this.accountList = new ArrayList<>();
 
-
     }
 
 
@@ -74,20 +73,25 @@ public class AccountService {
 
     public double calculateMonthlyPayment(double loan, int month) {
         double totalPayment = loan + (loan * interestRate);
-        double montlyPayment =  totalPayment /  month;
-        return montlyPayment;
+        double monthlyPayment = totalPayment / month;
+        return monthlyPayment;
     }
 
-    public Double loanManagement(String userId, float loan, int month) {
+    public Double loanManagement(String userId, float loan, int month,int paymentsMade) {
         User user = userService.getUserById(userId);
-        double takeMaxLoan = user.salary * 30;
+        double creditScore=0.0;
+        double takeMaxLoan=user.salary *5;
+        creditScore=creditScore(userId,paymentsMade);
+        if(creditScore>0){
+            takeMaxLoan*=creditScore;
+        }
         if (user != null && loan <= takeMaxLoan) {
-            AccountHistory accountHistory=new AccountHistory();
+            AccountHistory accountHistory = new AccountHistory();
             user.account.AccountBalance += loan;
             user.totalDebt = loan + (loan * interestRate);
-            accountHistory.isSuccess=true;
-            accountHistory.amount=loan;
-            accountHistory.date= LocalDate.now();
+            accountHistory.isSuccess = true;
+            accountHistory.amount = loan;
+            accountHistory.date = LocalDate.now();
             user.account.accountHistory.add(accountHistory);
             return calculateMonthlyPayment(loan, month);
         }
@@ -96,31 +100,33 @@ public class AccountService {
 
     public String creditPayment(String userId, int installments) {
         User user = userService.getUserById(userId);
-        double monthlyPayment=(user.totalDebt)/user.installments;
-        double deductedAmount=monthlyPayment*installments;
+        double monthlyPayment = (user.totalDebt) / user.installments;
+        double deductedAmount = monthlyPayment * installments;
         if (user != null && user.totalDebt >= deductedAmount) {
-            AccountHistory accountHistory=new AccountHistory();
+            AccountHistory accountHistory = new AccountHistory();
             user.account.AccountBalance -= (float) deductedAmount;
-            user.installments-=installments;
-            creditScore(userId,1);
-            accountHistory.isSuccess=true;
-            accountHistory.date=LocalDate.now();
+            user.installments -= installments;
+            creditScore(userId, 1);
+            accountHistory.isSuccess = true;
+            accountHistory.date = LocalDate.now();
             user.account.accountHistory.add(accountHistory);
-            return "Approve : Payment successful." ;
+            return "Approve : Payment successful.";
         } else {
             return "Reject: Insufficient balance or user not found.";
         }
 
     }
 
-    public void creditScore(String userId, int paymentsMade) {
+    public double creditScore(String userId, int paymentsMade) {
         User user = userService.getUserById(userId);
         if (user != null) {
             user.creditScore += paymentsMade;
         } else {
             throw new RuntimeException("User not found with this Id Number");
         }
+        return user.creditScore;
     }
+
 
 
 }
