@@ -1,13 +1,16 @@
 package org.example.account;
 
+
 import org.example.user.User;
 import org.example.user.UserService;
+
 
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 
 
 public class AccountService {
@@ -18,6 +21,36 @@ public class AccountService {
     public AccountService(UserService userService) {
         this.userService = userService;
         this.accountList = new ArrayList<>();
+
+
+import org.example.user.User;
+import org.example.user.UserService;
+
+public class AccountService {
+    ArrayList<Account> accountList = new ArrayList<>();
+    final UserService userService;
+    public long accountQuantity = 0;
+
+
+    public AccountService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public Account createAccount(int userId, String accountType) {
+        User user = userService.getUserById(userId);
+        if (user != null) {
+            throw new RuntimeException(UserMessage.USER_NOT);
+        }
+            Account account = new Account();
+            account.accountNumber = generateAccountNumber();
+            account.accountId = accountQuantity + 1;
+            account.accountHolder = user.fullName;
+            account.accountType = accountType;
+            account.accountBalance = 0.0f;
+            account.CreatedDate = LocalDate.now();
+            accountList.add(account);
+            accountQuantity ++ ;
+            return account;
 
     }
 
@@ -32,7 +65,7 @@ public class AccountService {
 
     public Account getAccountByAccountNumber(int accountNumber) {
         for (Account account : accountList) {
-            if (account.AccountNumber == accountNumber) {
+            if (account.accountNumber == accountNumber) {
                 return account;
             }
         }
@@ -43,7 +76,7 @@ public class AccountService {
 
     public List<Account> listAllAccounts() {
         boolean accountsQuantity = accountList.isEmpty();
-        if (accountsQuantity != false) {
+        if (accountsQuantity) {
             return accountList;
         }
         System.out.println("There is no account!");
@@ -54,20 +87,24 @@ public class AccountService {
     public String deleteAccount(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null) {
-            accountList.remove(account);
-            return "Delete transaction successfully:";
+            boolean confirm = confirmBeforeDeletingAccount();
+            if (confirm) {
+                accountList.remove(account);
+                return "Delete transaction successfully:";
+            } else {
+                return "Deletion has been canceled!";
+            }
         } else {
             return "Not found account number!";
         }
     }
-
-
     public Float checkBalanceFunctionality(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null) {
-            return account.AccountBalance;
+            return account.accountBalance;
         } else {
             return null;
+
         }
     }
 
@@ -130,4 +167,7 @@ public class AccountService {
 
 
 }
+
+
+        }}
 

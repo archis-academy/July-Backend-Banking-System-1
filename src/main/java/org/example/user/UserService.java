@@ -1,11 +1,18 @@
 package org.example.user;
 
+
 import org.example.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.ArrayList;
+
+
+
 public class UserService {
+    ArrayList<User> userList = new ArrayList<>();
+
 
     List<User> userList;
 
@@ -24,4 +31,20 @@ public class UserService {
     }
 
 
+
 }
+
+        public User getUserById(int userId) {
+            for (User user : userList) {
+                if (user.userId == userId) {
+                    System.out.println("User found successfully!");
+                    return user;
+                }
+            }
+            System.out.println("User couldn't found!");
+            return null;
+        }
+    }
+
+
+
