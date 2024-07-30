@@ -58,6 +58,7 @@ public class AccountService {
     }
 
 
+
     public String withDrawMoney(float amount, int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null && account.AccountBalance >= amount) {
@@ -70,6 +71,7 @@ public class AccountService {
         }
         return null;
     }
+
 
     public boolean confirmBeforeDeletingAccount() {
         Scanner scan = new Scanner(System.in);
@@ -91,7 +93,28 @@ public class AccountService {
             return null;
         }
     }
+
+
+    public String depositMoney(float amount, int accountNumber) {
+        Account account = getAccountByAccountNumber(accountNumber);
+        if (account != null && amount > 0) {
+            AccountHistory accountHistory = new AccountHistory();
+            account.AccountBalance += amount;
+            accountHistory.amount = amount;
+            accountHistory.isSuccess = true;
+            account.accountHistory.add(accountHistory);
+            return "Successfully deposit " + amount;
+        }
+        return null;
+    }
 }
+    
+
+
+
+
+
+
 
 
 
