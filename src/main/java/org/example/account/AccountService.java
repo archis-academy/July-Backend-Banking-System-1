@@ -80,13 +80,19 @@ public class AccountService {
         }
     }
 
-    public boolean inputValidationDepositWithdrawAmount(String amount) {
-        if (isPositiveDouble(amount) != true) {
-            return false;
-        } else {
-            return true;
+    static boolean checkUsingIsDigitMethod(String input) {
+        boolean temp = true;
+        for (char c : input.toCharArray()) {
+            if (Character.isDigit(c)) {
+                temp = true;
+            } else {
+                temp = false;
+                return temp;
+            }
         }
+        return temp;
     }
+
 
 }
 
