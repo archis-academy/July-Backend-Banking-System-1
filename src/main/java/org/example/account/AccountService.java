@@ -79,7 +79,6 @@ public class AccountService {
             return "Not found account number!";
         }
     }
-
     public Float checkBalanceFunctionality(int accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null) {
@@ -104,6 +103,12 @@ public class AccountService {
     }
 }
     
+
+
+
+
+
+
 
 
 
