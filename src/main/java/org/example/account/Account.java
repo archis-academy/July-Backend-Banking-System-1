@@ -1,6 +1,8 @@
 package org.example.account;
 
 import java.time.LocalDate;
+import java.util.List;
+
 import org.example.user.User;
 
 public class Account {
@@ -11,7 +13,7 @@ public class Account {
         public String accountHolder;
         public LocalDate CreatedDate;
         public User user;
-        public AccountHistory accountHistory;
+        List <AccountHistory> accountHistory;
         
     
         public Account() {
