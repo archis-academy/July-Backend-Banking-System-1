@@ -58,6 +58,21 @@ public class AccountService {
     }
 
 
+
+    public String withDrawMoney(float amount, int accountNumber) {
+        Account account = getAccountByAccountNumber(accountNumber);
+        if (account != null && account.AccountBalance >= amount) {
+            AccountHistory accountHistory = new AccountHistory();
+            account.AccountBalance -= amount;
+            accountHistory.amount = amount;
+            accountHistory.isSuccess = true;
+            account.accountHistory.add(accountHistory);
+            return "Successfully withdraw " + amount;
+        }
+        return null;
+    }
+
+
     public boolean confirmBeforeDeletingAccount() {
         Scanner scan = new Scanner(System.in);
         confirmMessage();
@@ -94,6 +109,12 @@ public class AccountService {
     }
 }
     
+
+
+
+
+
+
 
 
 
