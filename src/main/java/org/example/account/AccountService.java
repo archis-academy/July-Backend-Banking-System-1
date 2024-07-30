@@ -25,7 +25,7 @@ public class AccountService {
         }
             Account account = new Account();
             account.accountNumber = generateAccountNumber();
-            account.accountId = accountList.size()+1;
+            account.accountId = accountQuantity + 1;
             account.accountHolder = user.fullName;
             account.accountType = accountType;
             account.accountBalance = 0.0f;
