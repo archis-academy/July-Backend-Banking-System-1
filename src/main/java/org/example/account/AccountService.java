@@ -5,9 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.example.user.User;
+import org.example.user.UserService;
+
 public class AccountService {
     ArrayList<Account> accountList = new ArrayList<>();
     final UserService userService;
+    public long accountQuantity = 0;
+
 
     public AccountService(UserService userService) {
         this.userService = userService;
@@ -21,12 +26,12 @@ public class AccountService {
             Account account = new Account();
             account.accountNumber = generateAccountNumber();
             account.accountId = accountList.size()+1;
-            account.accountQuantity = accountList.size() + 1;
             account.accountHolder = user.fullName;
             account.accountType = accountType;
             account.accountBalance = 0.0f;
             account.CreatedDate = LocalDate.now();
             accountList.add(account);
+            accountQuantity ++ ;
             return account;
     }
 

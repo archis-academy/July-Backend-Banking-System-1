@@ -5,7 +5,6 @@ import org.example.user.User;
 
 public class Account {
         public long accountId;
-        public long accountQuantity;
         public long accountNumber;
         public String accountType;
         public float accountBalance;
@@ -19,9 +18,8 @@ public class Account {
     
         }
     
-        public Account(long accountId, long accountQuantity,long accountNumber, String accountType, float accountBalance, String accountHolder, LocalDate CreatedDate) {
+        public Account(long accountId, long accountNumber, String accountType, float accountBalance, String accountHolder, LocalDate CreatedDate) {
             this.accountId = accountId;
-            this.accountQuantity = accountQuantity;
             this.accountNumber = accountNumber;
             this.accountType = accountType;
             this.accountBalance = accountBalance;
