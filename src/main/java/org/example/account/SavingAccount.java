@@ -9,7 +9,7 @@ public class SavingAccount extends  Account {
     public LocalDate maturityDate;
     public double penaltyRate;
     public double maturityAmount;
-
+    
 
     public SavingAccount(long accountId, long accountNumber, String accountType, float accountBalance, String accountHolder, LocalDate createdDate, double totalCredit,
                          double interestRate, int maturity, LocalDate startDate, LocalDate maturityDate, double penaltyRate,double maturityAmount) {
