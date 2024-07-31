@@ -9,10 +9,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 
 public class AccountService {
+    public static final String USER_NOT_FOUND_WITH_THIS_ID_NUMBER = "User not found with this Id number!";
+    public static final String ACCOUNT_COULDN_T_FOUND = "Account couldn't found!";
+    public static final String ACCOUNT_DELETED_SUCCESSFULLY = "Account deleted successfully";
     List<Account> accountList;
+    List<AccountHistory> accountHistoryList;
     double interestRate = 0.25;
     private final UserService userService;
     public long accountQuantity = 0;
@@ -20,6 +25,7 @@ public class AccountService {
     public AccountService(UserService userService) {
         this.userService = userService;
         this.accountList = new ArrayList<>();
+        this.accountHistoryList=new ArrayList<>();
 
     }
 
@@ -27,7 +33,7 @@ public class AccountService {
     public Account createAccount(int userId, String accountType) {
         User user = userService.getUserById(userId);
         if (user != null) {
-            throw new RuntimeException("User not found with this Id number!");
+            throw new RuntimeException(USER_NOT_FOUND_WITH_THIS_ID_NUMBER);
         }
         user.creditScore = 1.0;
         Account account = new Account();
@@ -47,7 +53,7 @@ public class AccountService {
     public long generateAccountNumber() {
         long accountNumber;
         Random random = new Random();
-        accountNumber = 10000000 + random.nextLong(89999999);
+        accountNumber = 1000000000000000L + random.nextLong(8999999999999999L);
         return accountNumber;
     }
 
@@ -58,7 +64,7 @@ public class AccountService {
                 return account;
             }
         }
-        System.out.println("Account couldn't found!");
+        System.out.println(ACCOUNT_COULDN_T_FOUND);
         return null;
     }
 
@@ -68,7 +74,7 @@ public class AccountService {
         if (accountsQuantity) {
             return accountList;
         }
-        System.out.println("There is no account!");
+        System.out.println(ACCOUNT_COULDN_T_FOUND);
         return null;
     }
 
@@ -83,15 +89,50 @@ public class AccountService {
 
         }
     }
+    public static boolean isPositiveInput(Object input) {
+        if (input instanceof Integer) {
+            return ((Integer) input) > 0;
+        }
+        if (input instanceof Long) {
+            return ((Long) input) > 0;
+        }
+        if (input instanceof Float) {
+            return ((Float) input) > 0;
+        }
+        if (input instanceof Double) {
+            return ((Double) input) > 0;
+        } else {
+            return false;
+        }
+    }
+
+    public void deleteAccount(long accountNumber) {
+        Account account = getAccountByAccountNumber(accountNumber);
+        if (account != null) {
+            accountList.remove(account);
+        }
+    }
+
+    public String confirmBeforeDeletingAccount(long accountNumber) {
+        Scanner scan = new Scanner(System.in);
+        boolean confirm = scan.nextBoolean();
+        if (confirm == true) {
+            deleteAccount(accountNumber);
+            return ACCOUNT_DELETED_SUCCESSFULLY;
+        } else {
+            return "Deleted canceled";
+        }
+    }
 
     public String withDrawMoney(float amount, long accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
-        if (account != null && account.accountBalance >= amount) {
+        if (account != null && account.accountBalance >= amount && isPositiveInput(amount)) {
             AccountHistory accountHistory = new AccountHistory();
             account.accountBalance -= amount;
             accountHistory.amount = amount;
             accountHistory.isSuccess = true;
             account.accountHistory.add(accountHistory);
+            accountHistoryList.add(accountHistory);
             return "Successfully withdraw " + amount;
         }
         return null;
@@ -99,12 +140,13 @@ public class AccountService {
 
     public String depositMoney(float amount, long accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
-        if (account != null && amount > 0) {
+        if (account != null && amount > 0 && isPositiveInput(amount)) {
             AccountHistory accountHistory = new AccountHistory();
             account.accountBalance += amount;
             accountHistory.amount = amount;
             accountHistory.isSuccess = true;
             account.accountHistory.add(accountHistory);
+            accountHistoryList.add(accountHistory);
             return "Successfully deposit " + amount;
         }
         return null;
@@ -129,9 +171,10 @@ public class AccountService {
             accountHistory.amount = loan;
             accountHistory.date = LocalDate.now();
             user.account.accountHistory.add(accountHistory);
+            accountHistoryList.add(accountHistory);
             return calculateMonthlyPayment(loan, month);
         }
-        throw new RuntimeException("User not found with this Id number!");
+        throw new RuntimeException(USER_NOT_FOUND_WITH_THIS_ID_NUMBER);
     }
 
     public String creditPayment(int userId, int installments) {
@@ -146,6 +189,7 @@ public class AccountService {
             accountHistory.isSuccess = true;
             accountHistory.date = LocalDate.now();
             user.account.accountHistory.add(accountHistory);
+            accountHistoryList.add(accountHistory);
             return "Approve : Payment successful.";
         } else {
             return "Reject: Insufficient balance or user not found.";
