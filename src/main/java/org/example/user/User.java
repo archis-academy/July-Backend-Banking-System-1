@@ -1,6 +1,7 @@
 package org.example.user;
 
 import org.example.account.Account;
+import org.example.account.SavingAccount;
 
 public class User {
     public String userId;
@@ -12,8 +13,9 @@ public class User {
     public String phoneNumber;
     public String identityNumber;
     public Account account;
+    public SavingAccount savingAccount;
     public double salary;
-    public double creditScore = 0.0;
+    public double creditScore ;
     public double totalDebt;
     public int installments;
 

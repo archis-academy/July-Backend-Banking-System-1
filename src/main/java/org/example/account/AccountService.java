@@ -38,9 +38,11 @@ public class AccountService {
 
     public Account createAccount(int userId, String accountType) {
         User user = userService.getUserById(userId);
+
         if (user != null) {
             throw new RuntimeException(UserMessage.USER_NOT);
         }
+            user.creditScore=1;
             Account account = new Account();
             account.accountNumber = generateAccountNumber();
             account.accountId = accountQuantity + 1;
@@ -116,12 +118,8 @@ public class AccountService {
 
     public Double loanManagement(String userId, float loan, int month,int paymentsMade) {
         User user = userService.getUserById(userId);
-        double creditScore=0.0;
-        double takeMaxLoan=user.salary *5;
-        creditScore=creditScore(userId,paymentsMade);
-        if(creditScore>0){
-            takeMaxLoan*=creditScore;
-        }
+        double creditScore= user.creditScore;
+        double takeMaxLoan=user.salary *5*creditScore;
         if (user != null && loan <= takeMaxLoan) {
             AccountHistory accountHistory = new AccountHistory();
             user.account.AccountBalance += loan;
@@ -143,7 +141,7 @@ public class AccountService {
             AccountHistory accountHistory = new AccountHistory();
             user.account.AccountBalance -= (float) deductedAmount;
             user.installments -= installments;
-            creditScore(userId, 1);
+            user.creditScore+=installments;
             accountHistory.isSuccess = true;
             accountHistory.date = LocalDate.now();
             user.account.accountHistory.add(accountHistory);
@@ -154,15 +152,6 @@ public class AccountService {
 
     }
 
-    public double creditScore(String userId, int paymentsMade) {
-        User user = userService.getUserById(userId);
-        if (user != null) {
-            user.creditScore += paymentsMade;
-        } else {
-            throw new RuntimeException("User not found with this Id Number");
-        }
-        return user.creditScore;
-    }
 
 
 
