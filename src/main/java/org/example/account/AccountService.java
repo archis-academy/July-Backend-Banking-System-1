@@ -159,7 +159,7 @@ public class AccountService {
         }
     }
 
-    public String confirm(long accountNumber) {
+    public String confirmBeforeDeletingAccount(long accountNumber) {
         Scanner scan = new Scanner(System.in);
         boolean confirm = scan.nextBoolean();
         if (confirm == true) {
