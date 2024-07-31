@@ -31,10 +31,7 @@ public class UserService {
     }
 
 
-
-}
-
-        public User getUserById(int userId) {
+    public User getUserById(int userId) {
             for (User user : userList) {
                 if (user.userId == userId) {
                     System.out.println("User found successfully!");
