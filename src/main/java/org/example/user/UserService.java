@@ -3,11 +3,11 @@ package org.example.user;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class UserService {
-
-
+    public long userQuantity = 0;
     List<User> userList;
 
     public UserService() {
@@ -24,6 +24,45 @@ public class UserService {
         }
         System.out.println("User couldn't found!");
         return null;
+    }
+    
+    public int generateUserId() {
+        int userId;
+        Random random = new Random();
+        userId = 10000 + random.nextInt(8999);
+        return userId;
+    }
+
+    public User createUser() {
+        User user = new User();
+        user.userId = generateUserId();
+        userList.add(user);
+        userQuantity++;
+        return user;
+    }
+
+    public String deleteUser(int userId) {
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).userId == userId) {
+                userList.remove(i);
+                return "User deleted successfully!";
+            }
+        }
+        return "User not found with that id!";
+    }
+
+    public String updateUser(int userId, String password, String email, String address, String phoneNumber, double salary) {
+        User user = getUserById(userId);
+        if (user != null) {
+            user.password = password;
+            user.email = email;
+            user.address = address;
+            user.phoneNumber = phoneNumber;
+            user.salary = salary;
+            return "User updated successfully!";
+        }
+
+        return "User not found with that id!";
     }
 
 }
