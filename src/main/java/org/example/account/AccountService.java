@@ -86,7 +86,7 @@ public class AccountService {
 
     public String withDrawMoney(float amount, long accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
-        if (account != null && account.accountBalance >= amount) {
+        if (account != null && account.accountBalance >= amount && isPositiveInput(amount)) {
             AccountHistory accountHistory = new AccountHistory();
             account.accountBalance -= amount;
             accountHistory.amount = amount;
@@ -99,7 +99,7 @@ public class AccountService {
 
     public String depositMoney(float amount, long accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
-        if (account != null && amount > 0) {
+        if (account != null && amount > 0 && isPositiveInput(amount)) {
             AccountHistory accountHistory = new AccountHistory();
             account.accountBalance += amount;
             accountHistory.amount = amount;
