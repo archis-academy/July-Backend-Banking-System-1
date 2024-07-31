@@ -150,7 +150,23 @@ public class AccountService {
         } else {
             return "Reject: Insufficient balance or user not found.";
         }
+    }
 
+    public static boolean isPositiveInput(Object input) {
+        if (input instanceof Integer) {
+            return ((Integer) input) > 0;
+        }
+        if (input instanceof Long) {
+            return ((Long) input) > 0;
+        }
+        if (input instanceof Float) {
+            return ((Float) input) > 0;
+        }
+        if (input instanceof Double) {
+            return ((Double) input) > 0;
+        } else {
+            return false;
+        }
     }
 
 
