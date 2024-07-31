@@ -9,14 +9,14 @@ public class User {
     public int age;
     public String address;
     public String phoneNumber;
-    public int itentityNumber;
+    public int identityNumber;
     public Account account;
 
 
     public User() {
 
     }
-    public User(int userId, String fullName, String password, String email, int age, String address, String phoneNumber, int itentityNumber) {
+    public User(int userId, String fullName, String password, String email, int age, String address, String phoneNumber, int identityNumber) {
         this.userId = userId;
         this.fullName = fullName;
         this.password = password;
@@ -24,6 +24,6 @@ public class User {
         this.age = age;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.itentityNumber = itentityNumber;
+        this.identityNumber = identityNumber;
     }
 }
