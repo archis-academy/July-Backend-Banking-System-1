@@ -3,7 +3,7 @@ package org.example.user;
 import org.example.account.Account;
 
 public class User {
-    public String userId;
+    public int userId;
     public String fullName;
     public String password;
     public String email;
@@ -22,7 +22,7 @@ public class User {
 
     }
 
-    public User(String userId, String fullName, String password, String email, int age, String address,
+    public User(int userId, String fullName, String password, String email, int age, String address,
                 String phoneNumber, String identityNumber, double salary, double creditScore,double totalDebt) {
         this.userId = userId;
         this.fullName = fullName;
