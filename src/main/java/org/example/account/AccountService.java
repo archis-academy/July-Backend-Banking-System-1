@@ -1,9 +1,27 @@
 package org.example.account;
 
+
+import org.example.user.User;
+import org.example.user.UserService;
+
+
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+
+
+public class AccountService {
+    List<Account> accountList;
+    double interestRate = 0.25;
+    private final UserService userService;
+
+    public AccountService(UserService userService) {
+        this.userService = userService;
+        this.accountList = new ArrayList<>();
+
 
 import org.example.user.User;
 import org.example.user.UserService;
@@ -33,6 +51,7 @@ public class AccountService {
             accountList.add(account);
             accountQuantity ++ ;
             return account;
+
     }
 
 
@@ -85,4 +104,70 @@ public class AccountService {
             return account.accountBalance;
         } else {
             return null;
+
+        }
+    }
+
+    public double calculateMonthlyPayment(double loan, int month) {
+        double totalPayment = loan + (loan * interestRate);
+        double monthlyPayment = totalPayment / month;
+        return monthlyPayment;
+    }
+
+    public Double loanManagement(String userId, float loan, int month,int paymentsMade) {
+        User user = userService.getUserById(userId);
+        double creditScore=0.0;
+        double takeMaxLoan=user.salary *5;
+        creditScore=creditScore(userId,paymentsMade);
+        if(creditScore>0){
+            takeMaxLoan*=creditScore;
+        }
+        if (user != null && loan <= takeMaxLoan) {
+            AccountHistory accountHistory = new AccountHistory();
+            user.account.AccountBalance += loan;
+            user.totalDebt = loan + (loan * interestRate);
+            accountHistory.isSuccess = true;
+            accountHistory.amount = loan;
+            accountHistory.date = LocalDate.now();
+            user.account.accountHistory.add(accountHistory);
+            return calculateMonthlyPayment(loan, month);
+        }
+        throw new RuntimeException("User not found with this Id number!");
+    }
+
+    public String creditPayment(String userId, int installments) {
+        User user = userService.getUserById(userId);
+        double monthlyPayment = (user.totalDebt) / user.installments;
+        double deductedAmount = monthlyPayment * installments;
+        if (user != null && user.totalDebt >= deductedAmount) {
+            AccountHistory accountHistory = new AccountHistory();
+            user.account.AccountBalance -= (float) deductedAmount;
+            user.installments -= installments;
+            creditScore(userId, 1);
+            accountHistory.isSuccess = true;
+            accountHistory.date = LocalDate.now();
+            user.account.accountHistory.add(accountHistory);
+            return "Approve : Payment successful.";
+        } else {
+            return "Reject: Insufficient balance or user not found.";
+        }
+
+    }
+
+    public double creditScore(String userId, int paymentsMade) {
+        User user = userService.getUserById(userId);
+        if (user != null) {
+            user.creditScore += paymentsMade;
+        } else {
+            throw new RuntimeException("User not found with this Id Number");
+        }
+        return user.creditScore;
+    }
+
+
+
+}
+
+
         }}
+
