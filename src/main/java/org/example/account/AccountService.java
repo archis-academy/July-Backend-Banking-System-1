@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 
 public class AccountService {
@@ -71,7 +72,6 @@ public class AccountService {
         System.out.println("There is no account!");
         return null;
     }
-
 
 
     public Float checkBalanceFunctionality(long accountNumber) {
@@ -150,7 +150,24 @@ public class AccountService {
         } else {
             return "Reject: Insufficient balance or user not found.";
         }
+    }
 
+    public void deleteAccount(long accountNumber) {
+        Account account = getAccountByAccountNumber(accountNumber);
+        if (account != null) {
+            accountList.remove(account);
+        }
+    }
+
+    public String confirm(long accountNumber) {
+        Scanner scan = new Scanner(System.in);
+        boolean confirm = scan.nextBoolean();
+        if (confirm == true) {
+            deleteAccount(accountNumber);
+            return "Account deleted successfully";
+        } else {
+            return "Deleted canceled";
+        }
     }
 
 
