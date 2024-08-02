@@ -2,6 +2,7 @@
 package org.example.account;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class AccountHistory {
 
@@ -15,6 +16,7 @@ public class AccountHistory {
     AccountHistory() {
 
     }
+
 
     AccountHistory(String transactionType, boolean isSuccess, LocalDate date, float amount, String location) {
         this.transactionType = transactionType;
