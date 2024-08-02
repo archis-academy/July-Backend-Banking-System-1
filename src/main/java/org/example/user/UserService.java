@@ -14,7 +14,7 @@ public class UserService {
 
     public User getUserByIdentityNumber(String identityNumber) {
         for (User user : userList) {
-            if (user.getIdentityNumber().equals(identityNumber)) {
+            if (user.identityNumber.equals(identityNumber)) {
                 return user;
             }
         }

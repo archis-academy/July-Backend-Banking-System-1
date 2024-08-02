@@ -25,7 +25,6 @@ public class Account {
             this.AccountBalance = accountBalance;
             this.AccountHolder = accountHolder;
             this.CreatedDate = CreatedDate;
-            
         }
 
 

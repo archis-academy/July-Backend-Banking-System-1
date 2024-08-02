@@ -70,10 +70,10 @@ public class AccountService {
 
     public String openAccount(String identityNumber, String password) {
         User user = userService.getUserByIdentityNumber(identityNumber);
-        if (!user.getPassword().equals(password)) {
+        if (!user.password.equals(password)) {
             throw new RuntimeException("Error: Invalid password.");
         }
-        return "Account opened successfully for user: " + user.getFullName();
+        return "Account opened successfully for user: " + user.fullName;
     }
 
 
