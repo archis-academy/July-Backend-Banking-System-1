@@ -186,6 +186,7 @@ public class AccountService {
         if (user != null && loan <= takeMaxLoan) {
             AccountHistory accountHistory = new AccountHistory();
             user.account.accountBalance += loan;
+            user.installments=month;
             user.totalDebt = loan + (loan * interestRate);
             accountHistory.isSuccess = true;
             accountHistory.amount = loan;
@@ -197,18 +198,20 @@ public class AccountService {
             System.out.println("Mothly Payment : " + calculateMonthlyPayment(loan, month));
             return calculateMonthlyPayment(loan, month);
         }
+
         throw new RuntimeException(USER_NOT_FOUND_WITH_THIS_ID_NUMBER);
     }
 
     public String creditPayment(int userId, int installments) {
         User user = userService.getUserById(userId);
         double monthlyPayment = (user.totalDebt) / user.installments;
-        double deductedAmount = monthlyPayment * installments;
+        double deductedAmount=monthlyPayment*installments;
         if (user != null && user.totalDebt >= deductedAmount) {
             AccountHistory accountHistory = new AccountHistory();
             user.account.accountBalance -= (float) deductedAmount;
             user.installments -= installments;
             user.creditScore += installments;
+            user.totalDebt-=deductedAmount;
             accountHistory.amount=(float) deductedAmount;
             accountHistory.isSuccess = true;
             accountHistory.date = LocalDate.now();
