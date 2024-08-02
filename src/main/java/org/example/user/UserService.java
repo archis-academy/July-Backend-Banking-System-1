@@ -8,8 +8,8 @@ import java.util.Random;
 
 public class UserService {
     public static final String USER_NOT_FOUND_WITH_THAT_ID = "User not found with that id!";
-    public long userQuantity=0;
-
+    public static final String USER_DELETED_SUCCESSFULLY = "User deleted Successfully.";
+    public long userQuantity = 1;
     List<User> userList;
 
     public UserService() {
@@ -20,13 +20,13 @@ public class UserService {
     public User getUserById(int userId) {
         for (User user : userList) {
             if (user.userId == userId) {
-                System.out.println("User found successfully!");
                 return user;
             }
         }
         System.out.println(USER_NOT_FOUND_WITH_THAT_ID);
         return null;
     }
+
     public int generateUserId() {
         int userId;
         Random random = new Random();
@@ -34,22 +34,29 @@ public class UserService {
         return userId;
     }
 
-    public User createUser() {
+    public User createUser(String fullName, String password, String email, int age, String address, String phoneNumber, String identityNumber, double salary) {
         User user = new User();
         user.userId = generateUserId();
+        user.fullName = fullName;
+        user.password = password;
+        user.email = email;
+        user.age = age;
+        user.address = address;
+        user.phoneNumber = phoneNumber;
+        user.identityNumber = identityNumber;
+        user.salary = salary;
         userList.add(user);
         userQuantity++;
         return user;
     }
 
-    public String deleteUser(int userId) {
-        for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).userId == userId) {
-                userList.remove(i);
-                return "User deleted successfully!";
-            }
+    public boolean deleteUser(int userId) {
+        User user = getUserById(userId);
+        if (user != null) {
+            userList.remove(user);
+            return true;
         }
-        return USER_NOT_FOUND_WITH_THAT_ID;
+        return false;
     }
 
     public String updateUser(int userId, String password, String email, String address, String phoneNumber, double salary) {
@@ -66,10 +73,37 @@ public class UserService {
         return USER_NOT_FOUND_WITH_THAT_ID;
     }
 
+    public void listAllUser(int userId) {
+        User user = getUserById(userId);
+        if (user != null) {
+            printUserList(user);
+        } else {
+            System.out.println(USER_NOT_FOUND_WITH_THAT_ID);
+        }
+    }
+
+    public User signUp(String fullName, String password, String email, int age, String address, String phoneNumber, String identityNumber, double salary) {
+        return createUser(fullName, password, email, age, address, phoneNumber, identityNumber, salary);
+    }
+
+    public User logIn(String identityNumber, String password) {
+        for (User user : userList) {
+            if (user.identityNumber.equals(identityNumber) && user.password.equals(password)) {
+                System.out.println("Login successful!");
+                System.out.println("User Id : " + user.userId);
+                return user;
+            }
+        }
+        System.out.println("Invalid identityNumber or password!");
+        return null;
+    }
+
+    public static void printUserList(User user) {
+        System.out.println("User ID: " + user.userId + ", Full Name: " + user.fullName + ", Email: " +
+                user.email + ", Age: " + user.age + ", Address: " + user.address + ", Phone Number: " +
+                user.phoneNumber + ", Identity Number: " + user.identityNumber + ", Salary: " + user.salary);
+    }
 }
-
-
-
 
 
 

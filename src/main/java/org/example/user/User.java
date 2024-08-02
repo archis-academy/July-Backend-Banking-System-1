@@ -17,7 +17,7 @@ public class User {
     public double salary;
     public double creditScore = 0.0;
     public double totalDebt;
-    public int installments;
+    public int installments=1;
 
 
     public User() {

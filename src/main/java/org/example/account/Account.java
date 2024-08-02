@@ -1,6 +1,7 @@
 package org.example.account;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.example.user.User;
@@ -18,7 +19,7 @@ public class Account {
 
 
     public Account() {
-
+    this.accountHistory=new ArrayList<>();
     }
 
 

@@ -16,16 +16,18 @@ public class AccountService {
     public static final String USER_NOT_FOUND_WITH_THIS_ID_NUMBER = "User not found with this Id number!";
     public static final String ACCOUNT_COULDN_T_FOUND = "Account couldn't found!";
     public static final String ACCOUNT_DELETED_SUCCESSFULLY = "Account deleted successfully";
+    public static final String ACCOUNT_CREATED_SUCCESSFULLY = "Account created successfully.";
     List<Account> accountList;
     List<AccountHistory> accountHistoryList;
     double interestRate = 0.25;
+
     private final UserService userService;
     public long accountQuantity = 0;
 
     public AccountService(UserService userService) {
         this.userService = userService;
         this.accountList = new ArrayList<>();
-        this.accountHistoryList=new ArrayList<>();
+        this.accountHistoryList = new ArrayList<>();
 
     }
 
@@ -33,20 +35,20 @@ public class AccountService {
     public Account createAccount(int userId, String accountType) {
         User user = userService.getUserById(userId);
         if (user != null) {
-            throw new RuntimeException(USER_NOT_FOUND_WITH_THIS_ID_NUMBER);
+            user.creditScore = 1.0;
+            Account account = new Account();
+            account.accountNumber = generateAccountNumber();
+            account.accountId = accountQuantity + 1;
+            account.accountHolder = user.fullName;
+            account.accountType = accountType;
+            account.accountBalance = 0.0f;
+            account.CreatedDate = LocalDate.now();
+            user.account = account;
+            accountList.add(account);
+            accountQuantity++;
+            return account;
         }
-        user.creditScore = 1.0;
-        Account account = new Account();
-        account.accountNumber = generateAccountNumber();
-        account.accountId = accountQuantity + 1;
-        account.accountHolder = user.fullName;
-        account.accountType = accountType;
-        account.accountBalance = 0.0f;
-        account.CreatedDate = LocalDate.now();
-        accountList.add(account);
-        accountQuantity++;
-        return account;
-
+        throw new RuntimeException(ACCOUNT_CREATED_SUCCESSFULLY);
     }
 
 
@@ -71,7 +73,8 @@ public class AccountService {
 
     public List<Account> listAllAccounts() {
         boolean accountsQuantity = accountList.isEmpty();
-        if (accountsQuantity) {
+        if (!accountsQuantity) {
+            printAccountList();
             return accountList;
         }
         System.out.println(ACCOUNT_COULDN_T_FOUND);
@@ -79,16 +82,25 @@ public class AccountService {
     }
 
 
-
     public Float checkBalanceFunctionality(long accountNumber) {
         Account account = getAccountByAccountNumber(accountNumber);
         if (account != null) {
+            System.out.println("Account Balance : " + account.accountBalance);
             return account.accountBalance;
         } else {
             return null;
 
         }
     }
+
+    public void printAccountList() {
+        for (Account account : accountList) {
+            System.out.println("Account ID: " + account.accountId + ",Account Number: " + account.accountNumber +
+                    ", Account Type  " + account.accountType + ", Account Balance: " + account.accountBalance + ", Account Holder: " + account.accountHolder +
+                    ", Date: " + account.CreatedDate);
+        }
+    }
+
     public static boolean isPositiveInput(Object input) {
         if (input instanceof Integer) {
             return ((Integer) input) > 0;
@@ -115,8 +127,10 @@ public class AccountService {
 
     public String confirmBeforeDeletingAccount(long accountNumber) {
         Scanner scan = new Scanner(System.in);
-        boolean confirm = scan.nextBoolean();
-        if (confirm == true) {
+        System.out.println("yes/no");
+        String userInput = scan.nextLine();
+        boolean confirm = userInput.equalsIgnoreCase(userInput);
+        if (confirm) {
             deleteAccount(accountNumber);
             return ACCOUNT_DELETED_SUCCESSFULLY;
         } else {
@@ -131,6 +145,9 @@ public class AccountService {
             account.accountBalance -= amount;
             accountHistory.amount = amount;
             accountHistory.isSuccess = true;
+            accountHistory.date = LocalDate.now();
+            accountHistory.transactionType = "Withdraw";
+            accountHistory.location = "Online Banking";
             account.accountHistory.add(accountHistory);
             accountHistoryList.add(accountHistory);
             return "Successfully withdraw " + amount;
@@ -145,6 +162,9 @@ public class AccountService {
             account.accountBalance += amount;
             accountHistory.amount = amount;
             accountHistory.isSuccess = true;
+            accountHistory.date = LocalDate.now();
+            accountHistory.transactionType = "deposit";
+            accountHistory.location = "Online Banking";
             account.accountHistory.add(accountHistory);
             accountHistoryList.add(accountHistory);
             return "Successfully deposit " + amount;
@@ -170,8 +190,11 @@ public class AccountService {
             accountHistory.isSuccess = true;
             accountHistory.amount = loan;
             accountHistory.date = LocalDate.now();
+            accountHistory.transactionType = "Take Credit";
+            accountHistory.location = "Online Banking";
             user.account.accountHistory.add(accountHistory);
             accountHistoryList.add(accountHistory);
+            System.out.println("Mothly Payment : " + calculateMonthlyPayment(loan, month));
             return calculateMonthlyPayment(loan, month);
         }
         throw new RuntimeException(USER_NOT_FOUND_WITH_THIS_ID_NUMBER);
@@ -186,8 +209,11 @@ public class AccountService {
             user.account.accountBalance -= (float) deductedAmount;
             user.installments -= installments;
             user.creditScore += installments;
+            accountHistory.amount=(float) deductedAmount;
             accountHistory.isSuccess = true;
             accountHistory.date = LocalDate.now();
+            accountHistory.transactionType = "Credit Payment";
+            accountHistory.location = "Online Banking";
             user.account.accountHistory.add(accountHistory);
             accountHistoryList.add(accountHistory);
             return "Approve : Payment successful.";
@@ -195,6 +221,24 @@ public class AccountService {
             return "Reject: Insufficient balance or user not found.";
         }
 
+    }
+
+    public void accountHistoryList() {
+        for (AccountHistory accountHistory : accountHistoryList) {
+            System.out.println("Transaction Type: " + accountHistory.transactionType + ", IsSuccess: " + accountHistory.isSuccess + ", Amount: " +
+                    accountHistory.amount + ", Date : " + accountHistory.date + ", Location: " + accountHistory.location);
+        }
+    }
+
+    public void   creditInformation(int userId) {
+        User user =userService.getUserById(userId);
+        if (user == null) {
+            System.out.println(USER_NOT_FOUND_WITH_THIS_ID_NUMBER);
+        }
+
+        if (user != null) {
+            System.out.println("Total Debt: " + user.totalDebt + ", Remaining Installments: " + user.installments);
+        }
     }
 
 

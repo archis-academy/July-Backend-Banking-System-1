@@ -2,8 +2,8 @@ package org.example.account;
 
 import java.time.LocalDate;
 
-public class SavingAccount extends  Account{
-    public  double interestRate;
+public class SavingAccount extends Account {
+    public double interestRate;
     public int maturity;
     public LocalDate startDate;
     public LocalDate maturityDate;
